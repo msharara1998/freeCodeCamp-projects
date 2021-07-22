@@ -22,7 +22,6 @@ class Rectangle:
         return (self.width ** 2 + self.height ** 2) ** 0.5
 
     def get_picture(self):
-        x = ''
         if self.width <= 50 and self.height <= 50:
             x = '*' * self.width + '\n'
             x *= self.height
