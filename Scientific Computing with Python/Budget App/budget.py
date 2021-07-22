@@ -46,9 +46,12 @@ class Category:
 
 
 def create_spend_chart(categories):
+    # Obtain a list of withdrawals for each category
     categories_withdrawals = [[-transact['amount'] for transact in category.ledger if transact['amount'] < 0] for
                               category in categories]
+    # Get the total withdrawals for each category
     total_withdrawals = [sum(withdrawals) for withdrawals in categories_withdrawals]
+    # Get the percentage of withdrawals among total withdrawals of all categories
     percentage_spent = [int(10 * x / sum(total_withdrawals)+1) for x in total_withdrawals]
     x = ["Percentage spent by category"]
     # constructing labels of bar chart
@@ -65,8 +68,7 @@ def create_spend_chart(categories):
         x[11 - i] += ' ' + '  '.join(vertical_bars[i])
 
     x.append('    ' + '--' * (2 + len(categories)))
-    # constructing category name
-    # list of categories names
+    # constructing categories names
     names = [name.category_name for name in categories]
     vertical_names = zip_longest(*names, fillvalue=' ')
     for row in vertical_names:
