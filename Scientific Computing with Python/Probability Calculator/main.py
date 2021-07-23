@@ -19,18 +19,20 @@ class Hat:
 
 
 def experiment(hat, expected_balls, num_balls_drawn, num_experiments):
-
     m = 0
     if num_balls_drawn > len(hat.contents):
         num_balls_drawn = len(hat.contents)
     for i in range(num_experiments):
+        # making a deep copy to preserve initial content after drawing
         balls = copy.deepcopy(hat.contents)
+        # performing experiment
         drawn_balls = hat.draw(num_balls_drawn)
-        found_expected_balls = True
-        for key, value in expected_balls.items():
-            if drawn_balls.count(key) < value:
-                found_expected_balls = False
-        if found_expected_balls:
+        found_expected_balls = [False if drawn_balls.count(key) < value else True for key, value in
+                                expected_balls.items()]
+        # check if all expected balls where found
+        if all(found_expected_balls):
             m += 1
+        # returning hat contents to its initial state before the draw
         hat.contents = balls
     return m / num_experiments
+
